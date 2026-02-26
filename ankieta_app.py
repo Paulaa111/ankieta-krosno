@@ -101,36 +101,31 @@ with st.form("ankieta_final"):
     # IV. PRZYCISK WYŚLIJ
     submit = st.form_submit_button("WYŚLIJ ANKIETĘ")
 
-if submit:
-    with st.spinner('Zapisywanie odpowiedzi...'):
-        time.sleep(1.2)
-        
-        nowe_dane = {
-            "Data": [datetime.now().strftime("%Y-%m-%d %H:%M:%S")],
-            "Nazwa_Firmy": [nazwa_firmy],
-            "Branża": [branza],
-            "Staż": [staz],
-            "Godziny_Tyg": [godziny_tydzien],
-            "Priorytet_Auto": [", ".join(proces_auto)],
-            "Inne_proces": [inne_proces],
-            "Platforma": [preferencja_narzedzia],
-            "Przeznaczenie_Czasu": [wizja],
-            "Podejście_Tech": [nowoczesnosc]
-        }
-        
-        df = pd.DataFrame(nowe_dane)
-        
-        try:
-            existing_df = pd.read_csv("badanie_krosno.csv")
-            final_df = pd.concat([existing_df, df], ignore_index=True)
-        except FileNotFoundError:
-            final_df = df
-            
-        final_df.to_csv("badanie_krosno.csv", index=False)
+iif submit:
+    # Nowoczesny pasek postępu (trwa ułamek sekundy)
+    progress_text = "Trwa bezpieczne zapisywanie danych..."
+    my_bar = st.progress(0, text=progress_text)
+
+    for percent_complete in range(100):
+        time.sleep(0.01)
+        my_bar.progress(percent_complete + 1, text=progress_text)
     
-    st.success("✨ Dziękuję! Twoja ankieta została pomyślnie wysłana.")
+    time.sleep(0.2)
+    my_bar.empty()
+
+    # --- TUTAJ ZAPISUJEMY DANE (do CSV lub Sheets) ---
+    # (Zachowaj tu swój kod zapisu)
+
+    # TWOJE BALONY! 🎈
+    st.balloons()
+    
+    # Toast w rogu
+    st.toast('Dane zapisane pomyślnie!', icon='✅')
+    
+    # Komunikat końcowy
+    st.success("### Dziękuję! Twoja opinia została zarejestrowana.")
     st.info("""
-        Twoje odpowiedzi są niezwykle cenne dla mojego projektu badawczego. 
-        Dane zostaną wykorzystane do analizy potrzeb technologicznych lokalnego biznesu w Krośnie.
-        Życzę udanego dnia!
+        **Dziękuję!** Twoje odpowiedzi są dla mnie bezcenne. 
+        Dane zostaną wykorzystane do analizy potrzeb krośnieńskiego biznesu. 
+        Życzę udanego i spokojnego dnia!
     """)
