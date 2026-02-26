@@ -118,7 +118,7 @@ if submit:
 
         # 3. Zapis metodą uproszczoną
         # Używamy bezpośredniego dopisywania (append) zamiast aktualizacji całości
-        conn.create(worksheet="Sheet1", data=nowe_dane)
+        conn.update(worksheet="Sheet1", data=nowe_dane)
         
         # Wyświetlanie sukcesu
         my_bar.progress(100)
