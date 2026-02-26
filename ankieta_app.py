@@ -107,7 +107,7 @@ if submit:
     # 2. Zapis do Google Sheets
     try:
         # Odczyt aktualnych danych (wymagane, by dopisać nowy wiersz)
-        existing_data = conn.read(worksheet="Sheet1", usecols=list(range(10)))
+        existing_data = conn.read(worksheet="Sheet1")
         existing_data = existing_data.dropna(how="all")
 
         # Przygotowanie nowego wiersza
