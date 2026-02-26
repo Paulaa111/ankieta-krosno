@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 from datetime import datetime
 import time
+from streamlit_gsheets import GSheetsConnection
 
 # Konfiguracja strony
 st.set_page_config(page_title="Badanie Potrzeb Cyfrowych - Krosno", page_icon="📈", layout="centered")
@@ -29,6 +30,9 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
+# Inicjalizacja połączenia z Google Sheets
+conn = st.connection("gsheets", type=GSheetsConnection)
+
 st.title("📈 Badanie Potrzeb Cyfrowych Biznesu")
 st.write("""
 **Dzień dobry!** Nazywam się Paula i realizuję projekt badawczy dotyczący wyzwań operacyjnych krośnieńskich firm. 
@@ -45,24 +49,17 @@ with st.form("ankieta_final"):
     
     lista_branz = [
         "Beauty (Fryzjer, Barber, Kosmetyczka)", 
-        "Weterynaria", 
-        "Edukacja i Szkolenia", 
-        "Gastronomia / Cukiernie / Piekarnie",
-        "Logistyka i Transport",
-        "Budownictwo i Usługi Techniczne",
-        "Kwiaciarnie / Rękodzieło",
-        "Biblioteki i Instytucje Kultury",
-        "Motoryzacja / Warsztaty",
-        "Handel Detaliczny",
-        "Usługi Specjalistyczne (Prawo, Księgowość)",
-        "Inna"
+        "Weterynaria", "Edukacja i Szkolenia", "Gastronomia / Cukiernie / Piekarnie",
+        "Logistyka i Transport", "Budownictwo i Usługi Techniczne", "Kwiaciarnie / Rękodzieło",
+        "Biblioteki i Instytucje Kultury", "Motoryzacja / Warsztaty", "Handel Detaliczny",
+        "Usługi Specjalistyczne (Prawo, Księgowość)", "Inna"
     ]
     branza = st.selectbox("Branża / Profil działalności", lista_branz)
     staz = st.radio("Staż firmy na rynku:", ["Nowa firma (< 1 rok)", "1-5 lat", "Powyżej 5 lat"])
 
     # II. CODZIENNE OBOWIĄZKI
     st.header("⏳ Czas i Organizacja")
-    st.write("Zaznacz zadania, które zabierają najwięcej czasu poza główną działalnością:")
+    st.write("Zaznacz zadania, które zabierają najwięcej czasu:")
     p1 = st.checkbox("Obsługa zapytań (cennik, terminy, dostępność)")
     p2 = st.checkbox("Zarządzanie grafikiem i rezerwacjami")
     p3 = st.checkbox("Dokumentacja, faktury i rozliczenia")
@@ -78,9 +75,8 @@ with st.form("ankieta_final"):
     st.header("💡 Potencjał Usprawnień")
     proces_auto = st.multiselect(
         "Gdyby można było zautomatyzować jeden proces, co byłoby priorytetem?",
-        ["Kontakt z klientem", "Rezerwacje online", "Automatyczne wyceny", "Raporty i faktury", "Zarządzanie zapasami", "Inne (napisz poniżej)"]
+        ["Kontakt z klientem", "Rezerwacje online", "Automatyczne wyceny", "Raporty i faktury", "Zarządzanie zapasami", "Inne"]
     )
-    
     inne_proces = st.text_input("Jeśli wybrano 'Inne', wpisz co to za proces:")
     
     preferencja_narzedzia = st.radio(
@@ -89,7 +85,7 @@ with st.form("ankieta_final"):
     )
     
     wizja = st.radio(
-        "Na co przeznaczyłabyś/przeznaczyłbyś 10 odzyskanych godzin w miesiącu?",
+        "Na co zostałby przeznaczony odzyskany czas (np. 10h/miesiąc)?",
         ["Odpoczynek / Czas prywatny", "Większa liczba zleceń", "Szkolenia i rozwój", "Nowe kierunki usług"]
     )
     
@@ -98,34 +94,47 @@ with st.form("ankieta_final"):
         options=["Tradycyjne", "Ostrożne", "Otwarte", "Entuzjastyczne"]
     )
 
-    # IV. PRZYCISK WYŚLIJ
     submit = st.form_submit_button("WYŚLIJ ANKIETĘ")
 
 if submit:
-    # Nowoczesny pasek postępu (trwa ułamek sekundy)
-    progress_text = "Trwa bezpieczne zapisywanie danych..."
+    # 1. Pasek postępu
+    progress_text = "Łączenie z arkuszem i zapisywanie danych..."
     my_bar = st.progress(0, text=progress_text)
-
     for percent_complete in range(100):
         time.sleep(0.01)
         my_bar.progress(percent_complete + 1, text=progress_text)
     
-    time.sleep(0.2)
-    my_bar.empty()
+    # 2. Zapis do Google Sheets
+    try:
+        # Odczyt aktualnych danych (wymagane, by dopisać nowy wiersz)
+        existing_data = conn.read(worksheet="Sheet1", usecols=list(range(10)))
+        existing_data = existing_data.dropna(how="all")
 
-    # --- TUTAJ ZAPISUJEMY DANE (do CSV lub Sheets) ---
-    # (Zachowaj tu swój kod zapisu)
+        # Przygotowanie nowego wiersza
+        nowe_dane = pd.DataFrame([{
+            "Data": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "Nazwa_Firmy": nazwa_firmy,
+            "Branża": branza,
+            "Staż": staz,
+            "Godziny_Tyg": godziny_tydzien,
+            "Priorytet_Auto": ", ".join(proces_auto),
+            "Inne_proces": inne_proces,
+            "Platforma": preferencja_narzedzia,
+            "Przeznaczenie_Czasu": wizja,
+            "Podejście_Tech": nowoczesnosc
+        }])
 
-    # TWOJE BALONY! 🎈
-    st.balloons()
-    
-    # Toast w rogu
-    st.toast('Dane zapisane pomyślnie!', icon='✅')
-    
-    # Komunikat końcowy
-    st.success("### Dziękuję! Twoja opinia została zarejestrowana.")
-    st.info("""
-        **Dziękuję!** Twoje odpowiedzi są dla mnie bezcenne. 
-        Dane zostaną wykorzystane do analizy potrzeb krośnieńskiego biznesu. 
-        Życzę udanego i spokojnego dnia!
-    """)
+        # Dodanie nowych danych do starych i aktualizacja arkusza
+        updated_df = pd.concat([existing_data, nowe_dane], ignore_index=True)
+        conn.update(worksheet="Sheet1", data=updated_df)
+        
+        my_bar.empty()
+        st.balloons()  # Twoje balony!
+        st.toast('Dane zapisane w Arkuszu Google!', icon='✅')
+        st.success("### Dziękuję! Twoja opinia została zarejestrowana.")
+        st.info("Twoje odpowiedzi zostały bezpiecznie zapisane. Życzę udanego dnia!")
+        
+    except Exception as e:
+        my_bar.empty()
+        st.error(f"Wystąpił błąd podczas zapisu: {e}")
+        st.warning("Upewnij się, że skonfigurowałaś 'Secrets' w panelu Streamlit Cloud.")
