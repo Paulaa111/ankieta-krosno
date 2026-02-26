@@ -101,7 +101,7 @@ with st.form("ankieta_final"):
     # IV. PRZYCISK WYŚLIJ
     submit = st.form_submit_button("WYŚLIJ ANKIETĘ")
 
-iif submit:
+if submit:
     # Nowoczesny pasek postępu (trwa ułamek sekundy)
     progress_text = "Trwa bezpieczne zapisywanie danych..."
     my_bar = st.progress(0, text=progress_text)
