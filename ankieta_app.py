@@ -97,20 +97,12 @@ with st.form("ankieta_final"):
     submit = st.form_submit_button("WYŚLIJ ANKIETĘ")
 
 if submit:
-    # 1. Pasek postępu
-    progress_text = "Łączenie z arkuszem i zapisywanie danych..."
-    my_bar = st.progress(0, text=progress_text)
-    for percent_complete in range(100):
-        time.sleep(0.01)
-        my_bar.progress(percent_complete + 1, text=progress_text)
-    
-    # 2. Zapis do Google Sheets
     try:
-        # Odczyt aktualnych danych (wymagane, by dopisać nowy wiersz)
-        existing_data = conn.read(worksheet="Sheet1")
-        existing_data = existing_data.dropna(how="all")
-
-        # Przygotowanie nowego wiersza
+        # 1. Pasek postępu
+        progress_text = "Zapisywanie danych w Arkuszu Google..."
+        my_bar = st.progress(0, text=progress_text)
+        
+        # 2. Przygotowanie danych do wysłania
         nowe_dane = pd.DataFrame([{
             "Data": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             "Nazwa_Firmy": nazwa_firmy,
@@ -124,17 +116,24 @@ if submit:
             "Podejście_Tech": nowoczesnosc
         }])
 
-        # Dodanie nowych danych do starych i aktualizacja arkusza
-        updated_df = pd.concat([existing_data, nowe_dane], ignore_index=True)
-        conn.update(worksheet="Sheet1", data=updated_df)
+        # 3. Zapis metodą uproszczoną
+        # Używamy bezpośredniego dopisywania (append) zamiast aktualizacji całości
+        conn.create(worksheet="Sheet1", data=nowe_dane)
         
+        # Wyświetlanie sukcesu
+        my_bar.progress(100)
+        time.sleep(0.5)
         my_bar.empty()
-        st.balloons()  # Twoje balony!
-        st.toast('Dane zapisane w Arkuszu Google!', icon='✅')
+        
+        st.balloons()
         st.success("### Dziękuję! Twoja opinia została zarejestrowana.")
-        st.info("Twoje odpowiedzi zostały bezpiecznie zapisane. Życzę udanego dnia!")
+        st.toast('Dane zapisane pomyślnie!', icon='✅')
         
     except Exception as e:
-        my_bar.empty()
-        st.error(f"Wystąpił błąd podczas zapisu: {e}")
-        st.warning("Upewnij się, że skonfigurowałaś 'Secrets' w panelu Streamlit Cloud.")
+        st.error(f"Nadal występuje problem z połączeniem.")
+        st.info(f"Treść błędu: {e}")
+        st.warning("""
+        **Co możesz teraz zrobić?**
+        1. Sprawdź czy w Arkuszu Google zakładka na dole na pewno nazywa się **Sheet1** (bez spacji).
+        2. Sprawdź czy w Secrets link jest w cudzysłowie i kończy się na `/edit`.
+        """)
