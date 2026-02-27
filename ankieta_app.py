@@ -35,7 +35,7 @@ conn = st.connection("gsheets", type=GSheetsConnection)
 
 st.title("📈 Badanie Potrzeb Cyfrowych Biznesu")
 st.write("""
-**Dzień dobry!** Nazywam się Paula i realizuję projekt badawczy dotyczący wyzwań operacyjnych krośnieńskich firm. 
+**Dzień dobry!** Mam na imię Paula i realizuję projekt badawczy dotyczący wyzwań operacyjnych krośnieńskich firm. 
 Twoje odpowiedzi pomogą mi zrozumieć, które codzienne procesy są najbardziej czasochłonne i jak nowoczesne technologie 
 mogą wesprzeć lokalny rynek.
 
@@ -136,4 +136,5 @@ if submit:
         **Co możesz teraz zrobić?**
         1. Sprawdź czy w Arkuszu Google zakładka na dole na pewno nazywa się **Sheet1** (bez spacji).
         2. Sprawdź czy w Secrets link jest w cudzysłowie i kończy się na `/edit`.
+
         """)
