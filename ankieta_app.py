@@ -308,7 +308,7 @@ with st.form("ankieta_final"):
     """, unsafe_allow_html=True)
 
     with st.container():
-        nazwa_firmy = st.text_input("Nazwa firmy", placeholder="opcjonalnie — możesz zostawić puste")
+        nazwa_firmy = st.text_input("Nazwa firmy", placeholder="opcjonalnie - mozesz zostawic puste")
 
         lista_branz = [
             "Beauty (Fryzjer, Barber, Kosmetyczka)",
@@ -362,11 +362,11 @@ with st.form("ankieta_final"):
     """, unsafe_allow_html=True)
 
     proces_auto = st.multiselect(
-        "Gdyby można było zautomatyzować jeden proces — co byłoby priorytetem?",
+        "Gdyby mozna bylo zautomatyzowac jeden proces - co byloby priorytetem?",
         ["Kontakt z klientem", "Rezerwacje online", "Automatyczne wyceny",
-         "Raporty i faktury", "Zarządzanie zapasami", "Inne"]
+         "Raporty i faktury", "Zarzadzanie zapasami", "Inne"]
     )
-    inne_proces = st.text_input("Jeśli wybrałeś/aś „Inne" — wpisz co to za proces:", placeholder="np. planowanie dostaw")
+    inne_proces = st.text_input("Jesli wybrales/as 'Inne' - wpisz co to za proces:", placeholder="np. planowanie dostaw")
 
     preferencja_narzedzia = st.radio(
         "Preferowana platforma do pracy z narzędziami:",
