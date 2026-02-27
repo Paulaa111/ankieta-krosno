@@ -316,7 +316,7 @@ conn = st.connection("gsheets", type=GSheetsConnection)
 # ── HERO ────────────────────────────────────────────────────────────────────
 st.markdown("""
 <div class="hero">
-    <div class="hero-tag">⚡ Badanie 2026 · Krosno</div>
+    <div class="hero-tag">⚡ Badanie 2025 · Krosno</div>
     <h1>Cyfrowe potrzeby<br><span>krośnieńskiego biznesu</span></h1>
     <p>
         Cześć! Jestem Paula i realizuję projekt badawczy dotyczący wyzwań operacyjnych
@@ -388,9 +388,11 @@ with st.form("ankieta_final"):
         p5 = st.checkbox("📲  Marketing i social media")
         p6 = st.checkbox("✏️  Inne")
 
-    inne_czas = ""
-    if p6:
-        inne_czas = st.text_input("Co jeszcze zabiera Ci czas?", placeholder="np. reklamacje, zamówienia u dostawców...")
+    inne_czas = st.text_input(
+        "Co jeszcze zabiera Ci czas? (wypelnij jesli zaznaczyłeś Inne)",
+        placeholder="np. reklamacje, zamówienia u dostawców...",
+        disabled=not p6
+    )
 
     godziny_tydzien = st.select_slider(
         "Ile godzin tygodniowo pochłaniają sprawy organizacyjne?",
@@ -458,7 +460,7 @@ with st.form("ankieta_final"):
             margin: 0;
         ">
             Administratorem danych zbieranych w ramach niniejszej ankiety jest
-            <strong style="color: #cbd5e1;">Paula Oktabska</strong>.
+            <strong style="color: #cbd5e1;">Paula [Nazwisko]</strong>.
             Dane przetwarzane są wyłącznie w celu analizy potrzeb technologicznych
             lokalnych przedsiębiorstw oraz optymalizacji procesów biznesowych.
             Podanie nazwy firmy jest dobrowolne. Dane nie będą udostępniane podmiotom
