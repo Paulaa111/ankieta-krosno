@@ -316,7 +316,7 @@ conn = st.connection("gsheets", type=GSheetsConnection)
 # ── HERO ────────────────────────────────────────────────────────────────────
 st.markdown("""
 <div class="hero">
-    <div class="hero-tag">⚡ Badanie 2025 · Krosno</div>
+    <div class="hero-tag">⚡ Badanie 2026 · Krosno</div>
     <h1>Cyfrowe potrzeby<br><span>krośnieńskiego biznesu</span></h1>
     <p>
         Cześć! Jestem Paula i realizuję projekt badawczy dotyczący wyzwań operacyjnych
@@ -386,6 +386,11 @@ with st.form("ankieta_final"):
     with col2:
         p4 = st.checkbox("📋  Oferty i kosztorysy")
         p5 = st.checkbox("📲  Marketing i social media")
+        p6 = st.checkbox("✏️  Inne")
+
+    inne_czas = ""
+    if p6:
+        inne_czas = st.text_input("Co jeszcze zabiera Ci czas?", placeholder="np. reklamacje, zamówienia u dostawców...")
 
     godziny_tydzien = st.select_slider(
         "Ile godzin tygodniowo pochłaniają sprawy organizacyjne?",
@@ -476,6 +481,7 @@ if submit:
             "Branża": branza,
             "Staż": staz,
             "Godziny_Tyg": godziny_tydzien,
+            "Inne_czas": inne_czas,
             "Priorytet_Auto": ", ".join(proces_auto),
             "Inne_proces": inne_proces,
             "Platforma": preferencja_narzedzia,
@@ -505,4 +511,3 @@ if submit:
         1. Sprawdź czy zakładka w Arkuszu Google nazywa się dokładnie **Sheet1** (bez spacji).
         2. Sprawdź czy w Secrets link jest w cudzysłowie i kończy się na `/edit`.
         """)
-
