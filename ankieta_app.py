@@ -155,7 +155,7 @@ div[data-testid="stTextInput"] input:focus {
     box-shadow: 0 0 0 3px rgba(59,130,246,0.15) !important;
 }
 
-/* Label */
+/* Label - pytania nad polami */
 div[data-testid="stTextInput"] label,
 div[data-testid="stSelectbox"] label,
 div[data-testid="stMultiSelect"] label,
@@ -163,11 +163,39 @@ div[data-testid="stRadio"] label,
 div[data-testid="stCheckbox"] label,
 div[data-testid="stSlider"] label,
 .stSlider label {
-    color: #94a3b8 !important;
-    font-size: 0.85rem !important;
-    font-weight: 500 !important;
+    color: #cbd5e1 !important;
+    font-size: 0.9rem !important;
+    font-weight: 600 !important;
     letter-spacing: 0.02em !important;
     font-family: 'DM Sans', sans-serif !important;
+}
+
+/* Tekst wewnatrz opcji radio i checkbox */
+div[data-testid="stRadio"] p,
+div[data-testid="stRadio"] span,
+div[data-testid="stCheckbox"] p,
+div[data-testid="stCheckbox"] span {
+    color: #f1f5f9 !important;
+    font-size: 0.92rem !important;
+}
+
+/* Tekst wewnatrz selectbox i multiselect */
+div[data-testid="stSelectbox"] span,
+div[data-testid="stMultiSelect"] span {
+    color: #f1f5f9 !important;
+}
+
+/* Caption */
+div[data-testid="stCaptionContainer"] p {
+    color: #94a3b8 !important;
+    font-size: 0.82rem !important;
+}
+
+/* Slider - wartosci */
+div[data-testid="stSlider"] [data-testid="stTickBarMin"],
+div[data-testid="stSlider"] [data-testid="stTickBarMax"],
+div[data-testid="stSlider"] p {
+    color: #94a3b8 !important;
 }
 
 /* Radio buttons */
@@ -177,34 +205,49 @@ div[data-testid="stRadio"] > div {
     gap: 8px;
 }
 div[data-testid="stRadio"] > div > label {
-    background: rgba(255,255,255,0.03) !important;
-    border: 1px solid rgba(255,255,255,0.08) !important;
+    background: rgba(255,255,255,0.05) !important;
+    border: 1px solid rgba(255,255,255,0.12) !important;
     border-radius: 10px !important;
-    padding: 10px 14px !important;
+    padding: 10px 16px !important;
     cursor: pointer !important;
     transition: all 0.2s !important;
-    font-size: 0.88rem !important;
-    color: #cbd5e1 !important;
+    font-size: 0.92rem !important;
+    color: #f1f5f9 !important;
 }
 div[data-testid="stRadio"] > div > label:hover {
-    border-color: rgba(59,130,246,0.4) !important;
-    background: rgba(59,130,246,0.05) !important;
+    border-color: rgba(59,130,246,0.5) !important;
+    background: rgba(59,130,246,0.08) !important;
 }
 
 /* Checkboxes */
 div[data-testid="stCheckbox"] > label {
-    background: rgba(255,255,255,0.03) !important;
-    border: 1px solid rgba(255,255,255,0.08) !important;
+    background: rgba(255,255,255,0.05) !important;
+    border: 1px solid rgba(255,255,255,0.12) !important;
     border-radius: 10px !important;
-    padding: 10px 14px !important;
+    padding: 10px 16px !important;
     margin-bottom: 6px !important;
     transition: all 0.2s !important;
-    font-size: 0.88rem !important;
-    color: #cbd5e1 !important;
+    font-size: 0.92rem !important;
+    color: #f1f5f9 !important;
 }
 div[data-testid="stCheckbox"] > label:hover {
-    border-color: rgba(59,130,246,0.4) !important;
-    background: rgba(59,130,246,0.05) !important;
+    border-color: rgba(59,130,246,0.5) !important;
+    background: rgba(59,130,246,0.08) !important;
+}
+
+/* SUCCESS MESSAGE - niebieski zamiast zielonego */
+div[data-testid="stAlert"][kind="success"] {
+    background: rgba(37,99,235,0.12) !important;
+    border: 1px solid rgba(59,130,246,0.35) !important;
+    border-radius: 14px !important;
+}
+div[data-testid="stAlert"][kind="success"] p,
+div[data-testid="stAlert"][kind="success"] h3 {
+    color: #bfdbfe !important;
+}
+div[data-testid="stAlert"][kind="success"] svg {
+    fill: #60a5fa !important;
+    color: #60a5fa !important;
 }
 
 /* Slider */
@@ -321,7 +364,6 @@ with st.form("ankieta_final"):
         staz = st.radio(
             "Staż firmy na rynku",
             ["Nowa firma (< 1 rok)", "1–5 lat", "Powyżej 5 lat"],
-            horizontal=True
         )
 
     # ── SEKCJA 2 ──
@@ -385,6 +427,41 @@ with st.form("ankieta_final"):
     )
 
     st.markdown("<br>", unsafe_allow_html=True)
+
+    # KLAUZULA RODO
+    st.markdown("""
+    <div style="
+        background: rgba(59,130,246,0.06);
+        border: 1px solid rgba(59,130,246,0.2);
+        border-left: 3px solid #3b82f6;
+        border-radius: 12px;
+        padding: 16px 20px;
+        margin: 8px 0 20px;
+    ">
+        <p style="
+            color: #60a5fa;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin: 0 0 8px;
+        ">🔒 Informacja o przetwarzaniu danych (RODO)</p>
+        <p style="
+            color: #94a3b8;
+            font-size: 0.8rem;
+            line-height: 1.65;
+            margin: 0;
+        ">
+            Administratorem danych zbieranych w ramach niniejszej ankiety jest
+            <strong style="color: #cbd5e1;">Paula [Nazwisko]</strong>.
+            Dane przetwarzane są wyłącznie w celu analizy potrzeb technologicznych
+            lokalnych przedsiębiorstw oraz optymalizacji procesów biznesowych.
+            Podanie nazwy firmy jest dobrowolne. Dane nie będą udostępniane podmiotom
+            trzecim ani wykorzystywane do celów marketingowych bez odrębnej zgody.
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
+
     submit = st.form_submit_button("⚡  WYŚLIJ ANKIETĘ")
 
 # ── ZAPIS ───────────────────────────────────────────────────────────────────
