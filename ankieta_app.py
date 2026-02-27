@@ -316,7 +316,7 @@ conn = st.connection("gsheets", type=GSheetsConnection)
 # ── HERO ────────────────────────────────────────────────────────────────────
 st.markdown("""
 <div class="hero">
-    <div class="hero-tag">⚡ Badanie 2025 · Krosno</div>
+    <div class="hero-tag">⚡ Badanie 2026 · Krosno</div>
     <h1>Cyfrowe potrzeby<br><span>krośnieńskiego biznesu</span></h1>
     <p>
         Cześć! Jestem Paula i realizuję projekt badawczy dotyczący wyzwań operacyjnych
@@ -460,7 +460,7 @@ with st.form("ankieta_final"):
             margin: 0;
         ">
             Administratorem danych zbieranych w ramach niniejszej ankiety jest
-            <strong style="color: #cbd5e1;">Paula [Nazwisko]</strong>.
+            <strong style="color: #cbd5e1;">Paula Oktabska</strong>.
             Dane przetwarzane są wyłącznie w celu analizy potrzeb technologicznych
             lokalnych przedsiębiorstw oraz optymalizacji procesów biznesowych.
             Podanie nazwy firmy jest dobrowolne. Dane nie będą udostępniane podmiotom
@@ -513,3 +513,4 @@ if submit:
         1. Sprawdź czy zakładka w Arkuszu Google nazywa się dokładnie **Sheet1** (bez spacji).
         2. Sprawdź czy w Secrets link jest w cudzysłowie i kończy się na `/edit`.
         """)
+
