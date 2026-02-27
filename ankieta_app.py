@@ -146,13 +146,45 @@ div[data-testid="stMultiSelect"] > div > div {
     background: rgba(255,255,255,0.05) !important;
     border: 1px solid rgba(255,255,255,0.1) !important;
     border-radius: 10px !important;
-    color: #e2e8f0 !important;
+    color: #f8fafc !important;
     font-family: 'DM Sans', sans-serif !important;
     transition: border-color 0.2s !important;
+}
+
+/* Tekst wpisywany przez uzytkownika - ciemne tlo, jasny tekst */
+div[data-testid="stTextInput"] input::placeholder {
+    color: #475569 !important;
+}
+div[data-testid="stTextInput"] input:not(:placeholder-shown) {
+    background: rgba(255,255,255,0.1) !important;
+    color: #ffffff !important;
+    font-weight: 500 !important;
 }
 div[data-testid="stTextInput"] input:focus {
     border-color: #3b82f6 !important;
     box-shadow: 0 0 0 3px rgba(59,130,246,0.15) !important;
+    background: rgba(255,255,255,0.08) !important;
+}
+
+/* Wymuszenie ciemnego tla i ciemnego tekstu na inputach */
+div[data-testid="stTextInput"] > div {
+    background: transparent !important;
+}
+div[data-testid="stTextInput"] > div > div {
+    background: #1e293b !important;
+    border: 1px solid rgba(255,255,255,0.12) !important;
+    border-radius: 10px !important;
+}
+div[data-testid="stTextInput"] > div > div > input {
+    background: #1e293b !important;
+    color: #f1f5f9 !important;
+    font-size: 0.92rem !important;
+    font-family: 'DM Sans', sans-serif !important;
+    caret-color: #60a5fa !important;
+}
+div[data-testid="stTextInput"] > div > div > input::placeholder {
+    color: #64748b !important;
+    opacity: 1 !important;
 }
 
 /* Label - pytania nad polami */
@@ -316,7 +348,7 @@ conn = st.connection("gsheets", type=GSheetsConnection)
 # ── HERO ────────────────────────────────────────────────────────────────────
 st.markdown("""
 <div class="hero">
-    <div class="hero-tag">⚡ Badanie 2026 · Krosno</div>
+    <div class="hero-tag">⚡ Badanie 2025 · Krosno</div>
     <h1>Cyfrowe potrzeby<br><span>krośnieńskiego biznesu</span></h1>
     <p>
         Cześć! Jestem Paula i realizuję projekt badawczy dotyczący wyzwań operacyjnych
@@ -386,12 +418,11 @@ with st.form("ankieta_final"):
     with col2:
         p4 = st.checkbox("📋  Oferty i kosztorysy")
         p5 = st.checkbox("📲  Marketing i social media")
-        p6 = st.checkbox("✏️  Inne")
+
 
     inne_czas = st.text_input(
-        "Co jeszcze zabiera Ci czas? (wypelnij jesli zaznaczyłeś Inne)",
-        placeholder="np. reklamacje, zamówienia u dostawców...",
-        disabled=not p6
+        "✏️  Inne - wpisz co jeszcze zabiera Ci czas (opcjonalnie):",
+        placeholder="np. reklamacje, zamówienia u dostawców..."
     )
 
     godziny_tydzien = st.select_slider(
@@ -460,7 +491,7 @@ with st.form("ankieta_final"):
             margin: 0;
         ">
             Administratorem danych zbieranych w ramach niniejszej ankiety jest
-            <strong style="color: #cbd5e1;">Paula Oktabska</strong>.
+            <strong style="color: #cbd5e1;">Paula [Nazwisko]</strong>.
             Dane przetwarzane są wyłącznie w celu analizy potrzeb technologicznych
             lokalnych przedsiębiorstw oraz optymalizacji procesów biznesowych.
             Podanie nazwy firmy jest dobrowolne. Dane nie będą udostępniane podmiotom
@@ -513,4 +544,3 @@ if submit:
         1. Sprawdź czy zakładka w Arkuszu Google nazywa się dokładnie **Sheet1** (bez spacji).
         2. Sprawdź czy w Secrets link jest w cudzysłowie i kończy się na `/edit`.
         """)
-
