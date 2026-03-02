@@ -80,8 +80,8 @@ header[data-testid="stHeader"] { background: transparent; }
     overflow-wrap: normal !important;
     hyphens: none !important;
 }
-@media (max-width: 480px) {
-    .hero h1 { font-size: 1.7rem !important; }
+@media (max-width: 600px) {
+    .hero h1 { font-size: 1.4rem !important; line-height: 1.2 !important; }
 }
 .hero h1 span { color: #60a5fa; }
 .hero p {
@@ -357,7 +357,7 @@ st.markdown("""
     <div class="hero-tag">⚡ Badanie 2026 · Krosno</div>
     <h1>Cyfrowe potrzeby<br><span>krośnieńskiego biznesu</span></h1>
     <p>
-        Cześć! Jestem Paula i realizuję projekt badawczy dotyczący wyzwań operacyjnych
+        Cześć! Mam na imię Paula i realizuję projekt badawczy dotyczący wyzwań operacyjnych
         lokalnych firm. Twoje odpowiedzi pomogą mi zrozumieć, które procesy są
         najbardziej czasochłonne i jak technologia może wesprzeć nasz rynek.
     </p>
