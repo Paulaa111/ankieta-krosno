@@ -76,6 +76,12 @@ header[data-testid="stHeader"] { background: transparent; }
     color: #f8fafc !important;
     margin: 0 0 16px !important;
     padding: 0 !important;
+    word-break: keep-all !important;
+    overflow-wrap: normal !important;
+    hyphens: none !important;
+}
+@media (max-width: 480px) {
+    .hero h1 { font-size: 1.7rem !important; }
 }
 .hero h1 span { color: #60a5fa; }
 .hero p {
@@ -548,4 +554,3 @@ if submit:
         1. Sprawdź czy zakładka w Arkuszu Google nazywa się dokładnie **Sheet1** (bez spacji).
         2. Sprawdź czy w Secrets link jest w cudzysłowie i kończy się na `/edit`.
         """)
-
