@@ -514,13 +514,22 @@ if submit:
         progress_text = "Zapisuję Twoje odpowiedzi…"
         my_bar = st.progress(0, text=progress_text)
 
+        # Zbierz zaznaczone checkboxy w jeden string
+        zadania = []
+        if p1: zadania.append("Obsługa zapytań klientów")
+        if p2: zadania.append("Grafik i rezerwacje")
+        if p3: zadania.append("Dokumentacja i faktury")
+        if p4: zadania.append("Oferty i kosztorysy")
+        if p5: zadania.append("Marketing i social media")
+
         nowe_dane = pd.DataFrame([{
             "Data": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             "Nazwa_Firmy": nazwa_firmy,
             "Branża": branza,
             "Staż": staz,
-            "Godziny_Tyg": godziny_tydzien,
+            "Zadania_czasochlonne": ", ".join(zadania),
             "Inne_czas": inne_czas,
+            "Godziny_Tyg": godziny_tydzien,
             "Priorytet_Auto": ", ".join(proces_auto),
             "Inne_proces": inne_proces,
             "Platforma": preferencja_narzedzia,
@@ -533,7 +542,7 @@ if submit:
             time.sleep(0.1)
 
         # Pobierz istniejące dane i dopisz nowy wiersz
-        istniejace = conn.read(worksheet="Sheet1", usecols=list(range(11)), ttl=0)
+        istniejace = conn.read(worksheet="Sheet1", usecols=list(range(12)), ttl=0)
         istniejace = istniejace.dropna(how="all")
         zaktualizowane = pd.concat([istniejace, nowe_dane], ignore_index=True)
         conn.update(worksheet="Sheet1", data=zaktualizowane)
