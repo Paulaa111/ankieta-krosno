@@ -396,7 +396,7 @@ with st.form("ankieta_final"):
             "Weterynaria", "Edukacja i Szkolenia", "Gastronomia / Cukiernie / Piekarnie",
             "Logistyka i Transport", "Budownictwo i Usługi Techniczne", "Kwiaciarnie / Rękodzieło",
             "Biblioteki i Instytucje Kultury", "Motoryzacja / Warsztaty", "Handel Detaliczny",
-            "Usługi Specjalistyczne (Prawo, Księgowość)", "Inna"
+            "Usługi Specjalistyczne (Prawo, Księgowość)", "Ubezpieczenia", "Inna"
         ]
         branza = st.selectbox("Branża / Profil działalności", lista_branz)
         staz = st.radio(
@@ -563,3 +563,4 @@ if submit:
         1. Sprawdź czy zakładka w Arkuszu Google nazywa się dokładnie **Sheet1** (bez spacji).
         2. Sprawdź czy w Secrets link jest w cudzysłowie i kończy się na `/edit`.
         """)
+
